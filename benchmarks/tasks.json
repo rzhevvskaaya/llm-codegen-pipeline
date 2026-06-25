@@ -2,106 +2,400 @@
   {
     "instance_id": "T001",
     "difficulty": "easy",
-    "problem_statement": "Bug: sum_positive пропускает последний элемент списка. Нужно range(len(numbers)) вместо range(len(numbers)-1).",
-    "original_code": "def sum_positive(numbers: list[int]) -> int:\n    total = 0\n    for i in range(len(numbers) - 1):  # BUG\n        if numbers[i] > 0:\n            total += numbers[i]\n    return total\n",
-    "tests": [{"name":"test_sum_basic","assertions":[{"custom":true,"code":"assert sum_positive([1,2,3]) == 6"},{"custom":true,"code":"assert sum_positive([-1,2,-3,4]) == 6"}]},{"name":"test_sum_edge","assertions":[{"custom":true,"code":"assert sum_positive([]) == 0"},{"custom":true,"code":"assert sum_positive([5]) == 5"}]}]
+    "problem_statement": "sum_positive returns incorrect results for most input lists.",
+    "original_code": "def sum_positive(numbers: list[int]) -> int:\n    total = 0\n    for i in range(len(numbers) - 1):\n        if numbers[i] > 0:\n            total += numbers[i]\n    return total\n",
+    "tests": [
+      {
+        "name": "test_sum_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert sum_positive([1,2,3]) == 6"
+          },
+          {
+            "custom": true,
+            "code": "assert sum_positive([-1,2,-3,4]) == 6"
+          }
+        ]
+      },
+      {
+        "name": "test_sum_edge",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert sum_positive([]) == 0"
+          },
+          {
+            "custom": true,
+            "code": "assert sum_positive([5]) == 5"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T002",
     "difficulty": "easy",
-    "problem_statement": "Bug: count_vowels считает согласные вместо гласных. Нужно if char in vowels.",
-    "original_code": "def count_vowels(text: str) -> int:\n    vowels = set('aeiouAEIOU')\n    count = 0\n    for char in text:\n        if char not in vowels:  # BUG\n            count += 1\n    return count\n",
-    "tests": [{"name":"test_vowels_basic","assertions":[{"custom":true,"code":"assert count_vowels('hello') == 2"},{"custom":true,"code":"assert count_vowels('AEIOU') == 5"}]},{"name":"test_vowels_edge","assertions":[{"custom":true,"code":"assert count_vowels('') == 0"},{"custom":true,"code":"assert count_vowels('bcdfg') == 0"}]}]
+    "problem_statement": "count_vowels returns wrong counts for strings containing vowels.",
+    "original_code": "def count_vowels(text: str) -> int:\n    vowels = set('aeiouAEIOU')\n    count = 0\n    for char in text:\n        if char not in vowels:\n            count += 1\n    return count\n",
+    "tests": [
+      {
+        "name": "test_vowels_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert count_vowels('hello') == 2"
+          },
+          {
+            "custom": true,
+            "code": "assert count_vowels('AEIOU') == 5"
+          }
+        ]
+      },
+      {
+        "name": "test_vowels_edge",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert count_vowels('') == 0"
+          },
+          {
+            "custom": true,
+            "code": "assert count_vowels('bcdfg') == 0"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T003",
     "difficulty": "easy",
-    "problem_statement": "Bug: is_palindrome не игнорирует регистр. Нужно сравнивать lower() строку.",
-    "original_code": "def is_palindrome(s: str) -> bool:\n    return s == s[::-1]  # BUG\n",
-    "tests": [{"name":"test_pal_basic","assertions":[{"custom":true,"code":"assert is_palindrome('racecar') is True"},{"custom":true,"code":"assert is_palindrome('Racecar') is True"}]},{"name":"test_pal_edge","assertions":[{"custom":true,"code":"assert is_palindrome('') is True"},{"custom":true,"code":"assert is_palindrome('hello') is False"}]}]
+    "problem_statement": "is_palindrome incorrectly rejects valid palindromes in some cases.",
+    "original_code": "def is_palindrome(s: str) -> bool:\n    return s == s[::-1]\n",
+    "tests": [
+      {
+        "name": "test_pal_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert is_palindrome('racecar') is True"
+          },
+          {
+            "custom": true,
+            "code": "assert is_palindrome('Racecar') is True"
+          }
+        ]
+      },
+      {
+        "name": "test_pal_edge",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert is_palindrome('') is True"
+          },
+          {
+            "custom": true,
+            "code": "assert is_palindrome('hello') is False"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T004",
     "difficulty": "easy",
-    "problem_statement": "Bug: reverse_words не разворачивает порядок слов.",
-    "original_code": "def reverse_words(text: str) -> str:\n    words = text.split()\n    return ' '.join(words)  # BUG\n",
-    "tests": [{"name":"test_rev_basic","assertions":[{"custom":true,"code":"assert reverse_words('one two three') == 'three two one'"}]},{"name":"test_rev_edge","assertions":[{"custom":true,"code":"assert reverse_words('  a   b  ') == 'b a'"}]}]
+    "problem_statement": "reverse_words does not produce the expected output.",
+    "original_code": "def reverse_words(text: str) -> str:\n    words = text.split()\n    return ' '.join(words)\n",
+    "tests": [
+      {
+        "name": "test_rev_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert reverse_words('one two three') == 'three two one'"
+          }
+        ]
+      },
+      {
+        "name": "test_rev_edge",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert reverse_words('  a   b  ') == 'b a'"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T005",
     "difficulty": "easy",
-    "problem_statement": "Bug: find_max возвращает min(numbers) вместо max(numbers).",
-    "original_code": "def find_max(numbers: list[int]) -> int:\n    if not numbers:\n        raise ValueError('empty list')\n    return min(numbers)  # BUG\n",
-    "tests": [{"name":"test_max_basic","assertions":[{"custom":true,"code":"assert find_max([1,5,3]) == 5"},{"custom":true,"code":"assert find_max([-10,-3,-7]) == -3"}]}]
+    "problem_statement": "find_max consistently returns an incorrect value.",
+    "original_code": "def find_max(numbers: list[int]) -> int:\n    if not numbers:\n        raise ValueError('empty list')\n    return min(numbers)\n",
+    "tests": [
+      {
+        "name": "test_max_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert find_max([1,5,3]) == 5"
+          },
+          {
+            "custom": true,
+            "code": "assert find_max([-10,-3,-7]) == -3"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T006",
     "difficulty": "medium",
-    "problem_statement": "Bug: TTLCache.get() неверно проверяет истечение записи. Нужно if time.time() - ts > self.ttl.",
-    "original_code": "import time\nclass TTLCache:\n    def __init__(self, ttl: int):\n        self.ttl = ttl\n        self.store = {}\n    def set(self, key: str, value) -> None:\n        self.store[key] = (value, time.time())\n    def get(self, key: str):\n        if key not in self.store:\n            return None\n        value, ts = self.store[key]\n        if ts < self.ttl:  # BUG\n            del self.store[key]\n            return None\n        return value\n",
-    "tests": [{"name":"test_ttl_basic","assertions":[{"custom":true,"code":"cache = TTLCache(ttl=60); cache.set('x',42); assert cache.get('x') == 42"}]},{"name":"test_ttl_expired","assertions":[{"custom":true,"code":"cache = TTLCache(ttl=0); cache.set('x',42); assert cache.get('x') is None"}]}]
+    "problem_statement": "TTLCache does not expire entries correctly: entries with a short TTL are still returned after expiration.",
+    "original_code": "import time\nclass TTLCache:\n    def __init__(self, ttl: int):\n        self.ttl = ttl\n        self.store = {}\n    def set(self, key: str, value) -> None:\n        self.store[key] = (value, time.time())\n    def get(self, key: str):\n        if key not in self.store:\n            return None\n        value, ts = self.store[key]\n        if ts < self.ttl:\n            del self.store[key]\n            return None\n        return value\n",
+    "tests": [
+      {
+        "name": "test_ttl_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "cache = TTLCache(ttl=60); cache.set('x',42); assert cache.get('x') == 42"
+          }
+        ]
+      },
+      {
+        "name": "test_ttl_expired",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "cache = TTLCache(ttl=0); cache.set('x',42); assert cache.get('x') is None"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T007",
     "difficulty": "medium",
-    "problem_statement": "Bug: flatten_dict не добавляет underscore между уровнями вложенности.",
-    "original_code": "def flatten_dict(d: dict, parent_key: str = '') -> dict:\n    items = {}\n    for k, v in d.items():\n        new_key = parent_key + k if parent_key else k  # BUG\n        if isinstance(v, dict):\n            items.update(flatten_dict(v, new_key))\n        else:\n            items[new_key] = v\n    return items\n",
-    "tests": [{"name":"test_flat_basic","assertions":[{"custom":true,"code":"assert flatten_dict({'a': {'b': 1}}) == {'a_b': 1}"}]},{"name":"test_flat_deep","assertions":[{"custom":true,"code":"assert flatten_dict({'a': {'b': {'c': 42}}}) == {'a_b_c': 42}"}]}]
+    "problem_statement": "flatten_dict produces keys that do not match the expected format for nested dictionaries.",
+    "original_code": "def flatten_dict(d: dict, parent_key: str = '') -> dict:\n    items = {}\n    for k, v in d.items():\n        new_key = parent_key + k if parent_key else k\n        if isinstance(v, dict):\n            items.update(flatten_dict(v, new_key))\n        else:\n            items[new_key] = v\n    return items\n",
+    "tests": [
+      {
+        "name": "test_flat_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert flatten_dict({'a': {'b': 1}}) == {'a_b': 1}"
+          }
+        ]
+      },
+      {
+        "name": "test_flat_deep",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert flatten_dict({'a': {'b': {'c': 42}}}) == {'a_b_c': 42}"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T008",
     "difficulty": "medium",
-    "problem_statement": "Bug: most_frequent использует min вместо max.",
-    "original_code": "def most_frequent(items: list):\n    if not items:\n        return None\n    counts = {}\n    for item in items:\n        counts[item] = counts.get(item, 0) + 1\n    return min(counts, key=counts.get)  # BUG\n",
-    "tests": [{"name":"test_freq_basic","assertions":[{"custom":true,"code":"assert most_frequent([1,2,2,3]) == 2"},{"custom":true,"code":"assert most_frequent(['a','b','a','a']) == 'a'"}]}]
+    "problem_statement": "most_frequent returns the wrong element from the list.",
+    "original_code": "def most_frequent(items: list):\n    if not items:\n        return None\n    counts = {}\n    for item in items:\n        counts[item] = counts.get(item, 0) + 1\n    return min(counts, key=counts.get)\n",
+    "tests": [
+      {
+        "name": "test_freq_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert most_frequent([1,2,2,3]) == 2"
+          },
+          {
+            "custom": true,
+            "code": "assert most_frequent(['a','b','a','a']) == 'a'"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T009",
     "difficulty": "medium",
-    "problem_statement": "Bug: chunk_list пропускает последний chunk.",
-    "original_code": "def chunk_list(lst: list, size: int) -> list:\n    if size <= 0:\n        raise ValueError('size должен быть > 0')\n    result = []\n    for i in range(0, len(lst) - size, size):  # BUG\n        result.append(lst[i:i + size])\n    return result\n",
-    "tests": [{"name":"test_chunk_basic","assertions":[{"custom":true,"code":"assert chunk_list([1,2,3],2) == [[1,2],[3]]"},{"custom":true,"code":"assert chunk_list([1,2],5) == [[1,2]]"}]}]
+    "problem_statement": "chunk_list produces an incomplete result — some elements are missing from the output.",
+    "original_code": "def chunk_list(lst: list, size: int) -> list:\n    if size <= 0:\n        raise ValueError('size должен быть > 0')\n    result = []\n    for i in range(0, len(lst) - size, size):\n        result.append(lst[i:i + size])\n    return result\n",
+    "tests": [
+      {
+        "name": "test_chunk_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert chunk_list([1,2,3],2) == [[1,2],[3]]"
+          },
+          {
+            "custom": true,
+            "code": "assert chunk_list([1,2],5) == [[1,2]]"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T010",
     "difficulty": "medium",
-    "problem_statement": "Bug: normalize_scores не вычитает минимум из каждого значения.",
-    "original_code": "def normalize_scores(scores: list[float]) -> list[float]:\n    if not scores:\n        return []\n    max_score = max(scores)\n    if max_score == 0:\n        return [0 for _ in scores]\n    return [x / max_score for x in scores]  # BUG\n",
-    "tests": [{"name":"test_norm_basic","assertions":[{"custom":true,"code":"result = normalize_scores([10,20,30]); assert result == [0.0,0.5,1.0], result"}]},{"name":"test_norm_edge","assertions":[{"custom":true,"code":"result = normalize_scores([5,5,5]); assert result == [0,0,0], result"}]}]
+    "problem_statement": "normalize_scores produces incorrect normalized values. When all scores are equal, the result should be all zeros.",
+    "original_code": "def normalize_scores(scores: list[float]) -> list[float]:\n    if not scores:\n        return []\n    max_score = max(scores)\n    if max_score == 0:\n        return [0 for _ in scores]\n    return [x / max_score for x in scores]\n",
+    "tests": [
+      {
+        "name": "test_norm_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "result = normalize_scores([10,20,30]); assert result == [0.0,0.5,1.0], result"
+          }
+        ]
+      },
+      {
+        "name": "test_norm_edge",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "result = normalize_scores([5,5,5]); assert result == [0,0,0], result"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T011",
     "difficulty": "hard",
-    "problem_statement": "Bug: RateLimiter.is_allowed() использует now + window (BUG1) и неправильное условие > cutoff вместо < cutoff (BUG2).",
-    "original_code": "import time\nfrom collections import deque\nclass RateLimiter:\n    def __init__(self, max_calls: int, window_seconds: float):\n        self.max_calls = max_calls\n        self.window = window_seconds\n        self.calls = deque()\n    def is_allowed(self) -> bool:\n        now = time.time()\n        cutoff = now + self.window  # BUG 1: должно быть now - self.window\n        while self.calls and self.calls[0] > cutoff:  # BUG 2: должно быть <\n            self.calls.popleft()\n        if len(self.calls) >= self.max_calls:\n            return False\n        self.calls.append(now)\n        return True\n",
-    "tests": [{"name":"test_rl_basic","assertions":[{"custom":true,"code":"rl = RateLimiter(max_calls=3, window_seconds=10); results=[rl.is_allowed() for _ in range(4)]; assert results == [True,True,True,False], results"}]},{"name":"test_rl_window","assertions":[{"custom":true,"code":"import time as _t\nrl = RateLimiter(max_calls=2, window_seconds=0.1)\nassert rl.is_allowed()\nassert rl.is_allowed()\nassert not rl.is_allowed()\n_t.sleep(0.15)\nassert rl.is_allowed()"}]}]
+    "problem_statement": "RateLimiter.is_allowed() behaves incorrectly: it either blocks requests that should be allowed or allows requests that should be blocked. The sliding window logic appears to be broken.",
+    "original_code": "import time\n\nclass RateLimiter:\n    def __init__(self, max_calls: int, window_seconds: float):\n        self.max_calls = max_calls\n        self.window = window_seconds\n        self.calls = []  # должен быть deque\n\n    def is_allowed(self) -> bool:\n        now = time.time()\n        cutoff = now + self.window  # неверное направление окна\n        self.calls = [t for t in self.calls if t > cutoff]  # неверное условие\n        if len(self.calls) >= self.max_calls:\n            return False\n        self.calls.append(now)\n        return True\n",
+    "tests": [
+      {
+        "name": "test_rl_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "rl = RateLimiter(max_calls=3, window_seconds=10); results=[rl.is_allowed() for _ in range(4)]; assert results == [True,True,True,False], results"
+          }
+        ]
+      },
+      {
+        "name": "test_rl_window",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "import time as _t\nrl = RateLimiter(max_calls=2, window_seconds=0.1)\nassert rl.is_allowed()\nassert rl.is_allowed()\nassert not rl.is_allowed()\n_t.sleep(0.15)\nassert rl.is_allowed()"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T012",
     "difficulty": "hard",
-    "problem_statement": "Bug: LRUCache.get() не обновляет порядок использования ключа (нет move_to_end).",
-    "original_code": "from collections import OrderedDict\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n    def get(self, key: int) -> int:\n        if key not in self.cache:\n            return -1\n        return self.cache[key]  # BUG: нет self.cache.move_to_end(key)\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)\n",
-    "tests": [{"name":"test_lru_basic","assertions":[{"custom":true,"code":"c = LRUCache(2); c.put(1,1); c.put(2,2); assert c.get(1) == 1"}]},{"name":"test_lru_eviction","assertions":[{"custom":true,"code":"c = LRUCache(2)\nc.put(1,1); c.put(2,2)\nc.get(1)\nc.put(3,3)\nassert c.get(2) == -1\nassert c.get(1) == 1"}]}]
+    "problem_statement": "LRUCache eviction policy is incorrect: it evicts the wrong entry when capacity is exceeded.",
+    "original_code": "from collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, key: int) -> int:\n        if key not in self.cache:\n            return -1\n        # нет move_to_end → LRU-порядок не обновляется\n        return self.cache[key]\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            del self.cache[key]\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=True)  # удаляет ПОСЛЕДНИЙ вместо первого\n",
+    "tests": [
+      {
+        "name": "test_lru_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "c = LRUCache(2); c.put(1,1); c.put(2,2); assert c.get(1) == 1"
+          }
+        ]
+      },
+      {
+        "name": "test_lru_eviction",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "c = LRUCache(2)\nc.put(1,1); c.put(2,2)\nc.get(1)\nc.put(3,3)\nassert c.get(2) == -1\nassert c.get(1) == 1"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T013",
     "difficulty": "hard",
-    "problem_statement": "Bug: merge_intervals не сортирует интервалы перед слиянием.",
-    "original_code": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    if not intervals:\n        return []\n    merged = [intervals[0]]  # BUG: нет sorted(intervals)\n    for start, end in intervals[1:]:\n        last = merged[-1]\n        if start <= last[1]:\n            last[1] = max(last[1], end)\n        else:\n            merged.append([start, end])\n    return merged\n",
-    "tests": [{"name":"test_merge_sorted","assertions":[{"custom":true,"code":"assert merge_intervals([[1,3],[2,6],[8,10]]) == [[1,6],[8,10]]"}]},{"name":"test_merge_unsorted","assertions":[{"custom":true,"code":"assert merge_intervals([[8,10],[1,3],[2,6]]) == [[1,6],[8,10]]"}]}]
+    "problem_statement": "merge_intervals fails when intervals are not given in sorted order.",
+    "original_code": "def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:\n    if not intervals:\n        return []\n    # интервалы не сортируются\n    merged = [intervals[0]]\n    for start, end in intervals[1:]:\n        last = merged[-1]\n        if start < last[1]:  # неверное условие: < вместо <=\n            last[1] = max(last[1], end)\n        else:\n            merged.append([start, end])\n    return merged\n",
+    "tests": [
+      {
+        "name": "test_merge_sorted",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert merge_intervals([[1,3],[2,6],[8,10]]) == [[1,6],[8,10]]"
+          }
+        ]
+      },
+      {
+        "name": "test_merge_unsorted",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert merge_intervals([[8,10],[1,3],[2,6]]) == [[1,6],[8,10]]"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T014",
     "difficulty": "hard",
-    "problem_statement": "Bug: topological_sort увеличивает in_degree вместо уменьшения при обработке соседей.",
-    "original_code": "from collections import deque\ndef topological_sort(graph: dict) -> list:\n    in_degree = {node: 0 for node in graph}\n    for node in graph:\n        for nei in graph[node]:\n            in_degree[nei] = in_degree.get(nei, 0) + 1\n    q = deque([n for n, deg in in_degree.items() if deg == 0])\n    order = []\n    while q:\n        node = q.popleft()\n        order.append(node)\n        for nei in graph.get(node, []):\n            in_degree[nei] += 1  # BUG: должно быть -= 1\n            if in_degree[nei] == 0:\n                q.append(nei)\n    return order\n",
-    "tests": [{"name":"test_topo_basic","assertions":[{"custom":true,"code":"g={'A':['B','C'],'B':['D'],'C':['D'],'D':[]}\norder=topological_sort(g)\nassert order[0]=='A' and order[-1]=='D' and set(order)=={'A','B','C','D'}"}]},{"name":"test_topo_chain","assertions":[{"custom":true,"code":"assert topological_sort({'X':['Y'],'Y':['Z'],'Z':[]}) == ['X','Y','Z']"}]}]
+    "problem_statement": "topological_sort returns an incorrect ordering — nodes appear in the wrong position or the result is incomplete.",
+    "original_code": "from collections import deque\n\ndef topological_sort(graph: dict) -> list:\n    in_degree = {}\n    for node in graph:\n        if node not in in_degree:\n            in_degree[node] = 0\n        for nei in graph[node]:\n            in_degree[nei] = in_degree.get(nei, 0) + 1\n\n    # стартуем с узлов у которых in_degree > 0 — неверно\n    q = deque([n for n, deg in in_degree.items() if deg > 0])\n    order = []\n    while q:\n        node = q.popleft()\n        order.append(node)\n        for nei in graph.get(node, []):\n            in_degree[nei] += 1  # неверно: нужно -= 1\n            if in_degree[nei] == 0:\n                q.append(nei)\n    return order\n",
+    "tests": [
+      {
+        "name": "test_topo_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "g={'A':['B','C'],'B':['D'],'C':['D'],'D':[]}\norder=topological_sort(g)\nassert order[0]=='A' and order[-1]=='D' and set(order)=={'A','B','C','D'}"
+          }
+        ]
+      },
+      {
+        "name": "test_topo_chain",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert topological_sort({'X':['Y'],'Y':['Z'],'Z':[]}) == ['X','Y','Z']"
+          }
+        ]
+      }
+    ]
   },
   {
     "instance_id": "T015",
     "difficulty": "hard",
-    "problem_statement": "Bug: shortest_path_bfs помечает вершину visited после извлечения, а не при добавлении в очередь.",
-    "original_code": "from collections import deque\ndef shortest_path_bfs(graph: dict, start: str, goal: str) -> int:\n    q = deque([(start, 0)])\n    visited = set()\n    while q:\n        node, dist = q.popleft()\n        if node == goal:\n            return dist\n        visited.add(node)  # BUG: должно быть перед добавлением в очередь\n        for nei in graph.get(node, []):\n            if nei not in visited:\n                q.append((nei, dist + 1))\n    return -1\n",
-    "tests": [{"name":"test_bfs_basic","assertions":[{"custom":true,"code":"g={'A':['B','C'],'B':['D'],'C':['D'],'D':[]}\nassert shortest_path_bfs(g,'A','D') == 2"}]},{"name":"test_bfs_unreachable","assertions":[{"custom":true,"code":"assert shortest_path_bfs({'A':['B'],'B':[],'C':[]},'A','C') == -1"}]}]
+    "problem_statement": "shortest_path_bfs returns incorrect distances or enters an infinite loop on certain graphs.",
+    "original_code": "from collections import deque\n\ndef shortest_path_bfs(graph: dict, start: str, goal: str) -> int:\n    q = deque([(start, 0)])\n    visited = set()\n    while q:\n        node, dist = q.popleft()\n        if node in visited:  # проверяем после извлечения — слишком поздно\n            continue\n        visited.add(node)\n        if node == goal:\n            return dist\n        for nei in graph.get(node, []):\n            # не проверяем visited перед добавлением → дубли в очереди\n            q.append((nei, dist + 1))\n    return -1\n",
+    "tests": [
+      {
+        "name": "test_bfs_basic",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "g={'A':['B','C'],'B':['D'],'C':['D'],'D':[]}\nassert shortest_path_bfs(g,'A','D') == 2"
+          }
+        ]
+      },
+      {
+        "name": "test_bfs_unreachable",
+        "assertions": [
+          {
+            "custom": true,
+            "code": "assert shortest_path_bfs({'A':['B'],'B':[],'C':[]},'A','C') == -1"
+          }
+        ]
+      }
+    ]
   }
 ]

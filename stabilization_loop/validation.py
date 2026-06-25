@@ -42,7 +42,6 @@ def _looks_like_code_line(line: str) -> bool:
         return True
     if stripped.startswith((" ", "\t")):
         return True
-    # Typical Python statement / expression
     return bool(re.match(r"^[A-Za-z_][\w.\[\],:()\"'=\-+*/%|&^~<>! ]+$", stripped))
 
 
@@ -201,27 +200,43 @@ def _make_failure_signature(failure_type: str, output: str) -> str:
     return hashlib.sha1(raw.encode("utf-8", errors="ignore")).hexdigest()[:16]
 
 
-def _build_failure_digest(output: str, failure_type: str, max_lines: int = 35) -> str:
-    """Convert noisy pytest output into compact repair feedback."""
+def _build_failure_digest(output: str, failure_type: str, max_lines: int = 50) -> str:
+    """Convert noisy pytest output into compact repair feedback for AutoCrit.
+
+    Включает:
+    - строки с ключевыми словами ошибок
+    - строки с префиксом 'E ' — это детали assert от pytest (actual vs expected)
+    - последние строки вывода как fallback
+    """
     lines = output.splitlines()
     selected: list[str] = []
+
     capture_keywords = [
         "FAILED",
         "ERROR",
         "AssertionError",
         "assert",
-        "E   ",
+        "E   ",       # детали assert: actual value, diff
+        "E  +",       # diff: что лишнее
+        "E  -",       # diff: чего не хватает
+        "E  ?",       # diff: указатель
         "SyntaxError",
         "ImportError",
         "ModuleNotFoundError",
         "cannot import name",
         "short test summary info",
+        "At index",   # "At index 0 diff: ..."
+        "Full diff",
     ]
+
     for line in lines:
         if any(key.lower() in line.lower() for key in capture_keywords):
             selected.append(line)
+
+    # если ничего не нашли — берём хвост вывода
     if not selected:
         selected = lines[-max_lines:]
+
     selected = selected[-max_lines:]
     return f"Failure type: {failure_type}\n" + "\n".join(selected)
 
@@ -346,7 +361,8 @@ def run_tests(solution_path: str, test_path: str, timeout: int = 30) -> TestResu
             "PYTHONPATH": os.pathsep.join([solution_dir, test_dir, os.environ.get("PYTHONPATH", "")]),
         }
         result = subprocess.run(
-            [python, "-m", "pytest", test_path, "-v", "--tb=short", "--no-header", f"--rootdir={test_dir}"],
+            # -vv даёт полный diff при ASSERTION_FAILURE — модель видит actual vs expected
+            [python, "-m", "pytest", test_path, "-vv", "--tb=short", "--no-header", f"--rootdir={test_dir}"],
             capture_output=True,
             text=True,
             timeout=timeout,
